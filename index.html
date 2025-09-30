@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Demo Trend Fashion Anak — Giel (TikTok)</title>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -15,139 +14,38 @@
       --card:#ffffff;
       --bg:#f5f5f5;
       --radius:10px;
-      --glass: rgba(255,255,255,0.6);
     }
     body{
       margin:0;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
       background: linear-gradient(180deg, #fafafa 0%, #e5e5e5 100%);
       color:#111111;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       padding:28px;
     }
-    header{
-      text-align:center;
-      margin-bottom:18px;
-    }
-    header h1{
-      margin:0;
-      font-size:28px;
-      color:var(--accent);
-      letter-spacing:0.3px;
-      font-weight:800;
-    }
-    header p{
-      margin:6px 0 0 0;
-      color:var(--muted);
-    }
-
-    .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin:18px 0 22px 0;
-    }
-    .controls input[type=text], .controls select, .controls input[type=number]{
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid #d1d5db;
-      min-width:180px;
-      outline:none;
-      font-size:14px;
-      background: white;
-    }
-    .controls button{
-      background:var(--accent);
-      color:white;
-      border:none;
-      padding:10px 14px;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-      transition: all 0.2s ease;
-    }
-    .controls button:hover{ opacity:0.85; }
-
-    .container{
-      max-width:1200px;
-      margin:auto;
-    }
-
-    .table-wrap{
-      background:var(--card);
-      border-radius:var(--radius);
-      overflow:hidden;
-      box-shadow:0 6px 18px rgba(0,0,0,0.08);
-      margin-bottom:18px;
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      font-size:14px;
-    }
-    thead th{
-      background:#111111;
-      color:white;
-      padding:12px 14px;
-      text-align:left;
-      font-weight:700;
-      position:sticky;
-      top:0;
-      z-index:2;
-    }
-    tbody tr{
-      border-bottom:1px solid #e5e7eb;
-      background:#ffffffd9;
-    }
-    tbody tr:hover{ background:#f9fafb; }
-    td{
-      padding:14px;
-      vertical-align:middle;
-      color:#111111;
-    }
-    td a{ 
-      color:var(--accent); 
-      font-weight:600; 
-      text-decoration:underline; 
-    }
-    .col-rank{ width:56px; font-weight:700; color:#374151; }
-    .col-name{ width:34%; }
-    .muted{ color:var(--muted); font-size:13px; }
-    .small{ font-size:12px; color:#475569; }
-
-    .chart-card{
-      background:var(--card);
-      border-radius:var(--radius);
-      padding:16px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.08);
-      margin-bottom:28px;
-    }
-    .flex-row{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
-    .right { margin-left:auto; }
-
-    .note{
-      font-size:13px;
-      color:var(--muted);
-      margin-top:8px;
-    }
-
-    footer{
-      max-width:1200px;
-      margin:auto;
-      margin-top:18px;
-      color:var(--muted);
-      font-size:13px;
-      text-align:center;
-    }
-
-    /* responsive table */
-    @media (max-width:900px){
-      .table-wrap{ overflow:auto; }
-      thead th{ min-width:140px; }
-      td{ white-space:nowrap; }
-    }
+    header{text-align:center;margin-bottom:18px;}
+    header h1{margin:0;font-size:28px;color:var(--accent);font-weight:800;}
+    header p{margin:6px 0 0 0;color:var(--muted);}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 22px 0;}
+    .controls input,.controls select{padding:10px 12px;border-radius:8px;border:1px solid #d1d5db;min-width:180px;font-size:14px;background:white;}
+    .controls button{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;}
+    .controls button:hover{opacity:0.85;}
+    .container{max-width:1200px;margin:auto;}
+    .table-wrap{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.08);margin-bottom:18px;}
+    table{width:100%;border-collapse:collapse;font-size:14px;}
+    thead th{background:#111;color:white;padding:12px 14px;text-align:left;font-weight:700;position:sticky;top:0;z-index:2;}
+    tbody tr{border-bottom:1px solid #e5e7eb;background:#ffffffd9;}
+    tbody tr:hover{background:#f9fafb;}
+    td{padding:14px;vertical-align:middle;color:#111;}
+    td a{color:var(--accent);font-weight:600;text-decoration:underline;}
+    .col-rank{width:56px;font-weight:700;color:#374151;}
+    .col-name{width:34%;}
+    .muted{color:var(--muted);font-size:13px;}
+    .small{font-size:12px;color:#475569;}
+    .chart-card{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(0,0,0,0.08);margin-bottom:28px;}
+    .flex-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+    .right{margin-left:auto;}
+    footer{max-width:1200px;margin:auto;margin-top:18px;color:var(--muted);font-size:13px;text-align:center;}
+    @media (max-width:900px){.table-wrap{overflow:auto;}thead th{min-width:140px;}td{white-space:nowrap;}}
   </style>
 </head>
 <body>
@@ -158,7 +56,7 @@
 
   <div class="container">
     <div class="controls">
-      <input id="q" type="text" placeholder="Cari produk atau platform..." />
+      <input id="q" type="text" placeholder="Cari produk..." />
       <button id="apply">Filter</button>
       <div style="margin-left:auto"></div>
       <button id="chartBtn">Chart Top 10</button>
@@ -182,7 +80,7 @@
 
     <div class="chart-card">
       <div class="flex-row">
-        <h3 style="margin:0">Chart: Top 10 Produk (Qty Sold)</h3>
+        <h3 style="margin:0">Chart: Top 10 Produk</h3>
         <div class="right muted">Klik tombol untuk tampilkan</div>
       </div>
       <canvas id="salesChart" style="margin-top:12px; max-height:360px"></canvas>
@@ -195,33 +93,74 @@
 
   <script>
     const data = [
-      {Rank:1, Product:"Kaos Anak Dino Lucu",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7341111111111111111",Product:"https://vt.tiktok.com/ZSNKaosDino",Price:"59,000"},
-      {Rank:2, Product:"Dress Bunga Summer",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7342222222222222222",Product:"https://vt.tiktok.com/ZSNDressBunga",Price:"89,000"},
-      {Rank:3, Product:"Setelan Anak Sporty",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7343333333333333333",Product:"https://vt.tiktok.com/ZSNSetelanSporty",Price:"99,000"},
-      {Rank:4, Product:"Kaos Karakter Kartun",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7344444444444444444",Product:"https://vt.tiktok.com/ZSNKaosKartun",Price:"65,000"},
-      {Rank:5, Product:"Hoodie Anak Oversize",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7345555555555555555",Product:"https://vt.tiktok.com/ZSNSweaterAnak",Price:"120,000"},
-      {Rank:6, Product:"Oneset Casual Korean",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7346666666666666666",Product:"https://vt.tiktok.com/ZSNOnesetKorean",Price:"135,000"},
-      {Rank:7, Product:"Baju Tidur Anak Polos",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7347777777777777777",Product:"https://vt.tiktok.com/ZSNBajuTidur",Price:"79,000"},
-      {Rank:8, Product:"Kaos Polo Anak Sekolah",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7348888888888888888",Product:"https://vt.tiktok.com/ZSNKaosPolo",Price:"55,000"},
-      {Rank:9, Product:"Setelan Denim Mini",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7349999999999999999",Product:"https://vt.tiktok.com/ZSNDenimMini",Price:"150,000"},
-      {Rank:10, Product:"Kaos Stripes Anak",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7350000000000000000",Product:"https://vt.tiktok.com/ZSNKaosStripes",Price:"62,000"},
-      {Rank:11, Product:"Dress Princess Tulle",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7351111111111111111",Product:"https://vt.tiktok.com/ZSNDressTulle",Price:"170,000"},
-      {Rank:12, Product:"Kaos Anak Tie Dye",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7352222222222222222",Product:"https://vt.tiktok.com/ZSNKaosTieDye",Price:"75,000"},
-      {Rank:13, Product:"Oneset Hoodie Anak",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7353333333333333333",Product:"https://vt.tiktok.com/ZSNOnesetHoodie",Price:"110,000"},
-      {Rank:14, Product:"Kaos Oversize Simple",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7354444444444444444",Product:"https://vt.tiktok.com/ZSNKaosOversize",Price:"70,000"},
-      {Rank:15, Product:"Setelan Anak Santai",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7355555555555555555",Product:"https://vt.tiktok.com/ZSNSetelanSantai",Price:"95,000"},
-      {Rank:16, Product:"Kaos Raglan Warna",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7356666666666666666",Product:"https://vt.tiktok.com/ZSNKaosRaglan",Price:"60,000"},
-      {Rank:17, Product:"Sweater Knit Anak",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7357777777777777777",Product:"https://vt.tiktok.com/ZSNSweaterKnit",Price:"140,000"},
-      {Rank:18, Product:"Baju Tidur Karakter",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7358888888888888888",Product:"https://vt.tiktok.com/ZSNPiyamaKarakter",Price:"105,000"},
-      {Rank:19, Product:"Kaos Lengan Panjang Anak",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7359999999999999999",Product:"https://vt.tiktok.com/ZSNKaosPanjang",Price:"80,000"},
-      {Rank:20, Product:"Setelan Anak Denim Jaket",Platform:"TikTok Shop",Video:"https://www.tiktok.com/@kidswear/video/7360000000000000000",Product:"https://vt.tiktok.com/ZSNSetelanDenim",Price:"165,000"},
+      {Rank:1, Product:"Ovikids | Setelan Anak Casual",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@ovikids/video/7361234567890123456",
+       Product:"https://www.tiktokglobalshop.com/product/ovikids-setelan-casual",
+       Price:"Rp 115.000"},
+      {Rank:2, Product:"Kaos Anak Dino Lucu",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7341111111111111111",
+       Product:"https://vt.tiktok.com/ZSNKaosDino",Price:"Rp 59.000"},
+      {Rank:3, Product:"Dress Bunga Summer",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7342222222222222222",
+       Product:"https://vt.tiktok.com/ZSNDressBunga",Price:"Rp 89.000"},
+      {Rank:4, Product:"Setelan Anak Sporty",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7343333333333333333",
+       Product:"https://vt.tiktok.com/ZSNSetelanSporty",Price:"Rp 99.000"},
+      {Rank:5, Product:"Kaos Karakter Kartun",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7344444444444444444",
+       Product:"https://vt.tiktok.com/ZSNKaosKartun",Price:"Rp 65.000"},
+      {Rank:6, Product:"Hoodie Anak Oversize",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7345555555555555555",
+       Product:"https://vt.tiktok.com/ZSNSweaterAnak",Price:"Rp 120.000"},
+      {Rank:7, Product:"Oneset Casual Korean",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7346666666666666666",
+       Product:"https://vt.tiktok.com/ZSNOnesetKorean",Price:"Rp 135.000"},
+      {Rank:8, Product:"Baju Tidur Anak Polos",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7347777777777777777",
+       Product:"https://vt.tiktok.com/ZSNBajuTidur",Price:"Rp 79.000"},
+      {Rank:9, Product:"Kaos Polo Anak Sekolah",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7348888888888888888",
+       Product:"https://vt.tiktok.com/ZSNKaosPolo",Price:"Rp 55.000"},
+      {Rank:10, Product:"Setelan Denim Mini",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7349999999999999999",
+       Product:"https://vt.tiktok.com/ZSNDenimMini",Price:"Rp 150.000"},
+      {Rank:11, Product:"Kaos Stripes Anak",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7350000000000000000",
+       Product:"https://vt.tiktok.com/ZSNKaosStripes",Price:"Rp 62.000"},
+      {Rank:12, Product:"Dress Princess Tulle",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7351111111111111111",
+       Product:"https://vt.tiktok.com/ZSNDressTulle",Price:"Rp 170.000"},
+      {Rank:13, Product:"Kaos Anak Tie Dye",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7352222222222222222",
+       Product:"https://vt.tiktok.com/ZSNKaosTieDye",Price:"Rp 75.000"},
+      {Rank:14, Product:"Oneset Hoodie Anak",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7353333333333333333",
+       Product:"https://vt.tiktok.com/ZSNOnesetHoodie",Price:"Rp 110.000"},
+      {Rank:15, Product:"Kaos Oversize Simple",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7354444444444444444",
+       Product:"https://vt.tiktok.com/ZSNKaosOversize",Price:"Rp 70.000"},
+      {Rank:16, Product:"Setelan Anak Santai",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7355555555555555555",
+       Product:"https://vt.tiktok.com/ZSNSetelanSantai",Price:"Rp 95.000"},
+      {Rank:17, Product:"Kaos Raglan Warna",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7356666666666666666",
+       Product:"https://vt.tiktok.com/ZSNKaosRaglan",Price:"Rp 60.000"},
+      {Rank:18, Product:"Sweater Knit Anak",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7357777777777777777",
+       Product:"https://vt.tiktok.com/ZSNSweaterKnit",Price:"Rp 140.000"},
+      {Rank:19, Product:"Baju Tidur Karakter",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7358888888888888888",
+       Product:"https://vt.tiktok.com/ZSNPiyamaKarakter",Price:"Rp 105.000"},
+      {Rank:20, Product:"Setelan Anak Denim Jaket",Platform:"TikTok Shop",
+       Video:"https://www.tiktok.com/@kidswear/video/7360000000000000000",
+       Product:"https://vt.tiktok.com/ZSNSetelanDenim",Price:"Rp 165.000"},
     ];
 
-    const tbody = document.getElementById('tbody');
+    const tbody=document.getElementById('tbody');
     function renderRows(rows){
-      tbody.innerHTML = '';
+      tbody.innerHTML='';
       rows.forEach(r=>{
-        tbody.innerHTML += `
+        tbody.innerHTML+=`
           <tr>
             <td class="col-rank">${r.Rank}</td>
             <td class="col-name"><strong>${r.Product}</strong></td>
@@ -243,7 +182,7 @@
         type:'bar',
         data:{
           labels:data.slice(0,10).map(x=>x.Product),
-          datasets:[{label:'Qty Terjual (dummy)',data:[120,95,140,80,110,130,90,75,100,88],backgroundColor:'#111111'}]
+          datasets:[{label:'Qty Terjual (dummy)',data:[210,120,95,140,80,110,130,90,75,100],backgroundColor:'#111'}]
         },
         options:{responsive:true,plugins:{legend:{display:false}}}
       });
