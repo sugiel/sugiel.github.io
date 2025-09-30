@@ -1,121 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Giel Trend Analytic Demo</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Trend Analisis Fashion Anak oleh Giel — TikTok</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #f5f6fa; }
-    header { background: linear-gradient(90deg, #4e54c8, #0084ff); color: #fff; padding: 20px; text-align: center; }
-    header h1 { margin: 0; }
-    nav { background: #fff; padding: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    nav a { margin: 0 15px; text-decoration: none; color: #333; font-weight: bold; }
-    section { padding: 30px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-    .card { background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 15px; text-align: center; }
-    .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
-    .card h3 { margin: 10px 0 5px; }
-    .card a { display: inline-block; margin-top: 10px; padding: 8px 12px; background: #0084ff; color: #fff; border-radius: 6px; text-decoration: none; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; }
-    table th, table td { padding: 10px; border: 1px solid #ddd; text-align: center; }
-    table th { background: #0084ff; color: white; }
+    :root{
+      --accent:#2575fc;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --bg:#f3f6fb;
+      --radius:10px;
+      --glass: rgba(255,255,255,0.6);
+    }
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(180deg, #f7fafc 0%, #eef6ff 100%);
+      color:#172554;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+    header{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    header h1{
+      margin:0;
+      font-size:28px;
+      color:var(--accent);
+      letter-spacing:0.2px;
+    }
+    header p{
+      margin:6px 0 0 0;
+      color:var(--muted);
+    }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin:18px 0 22px 0;
+    }
+    .controls input[type=text], .controls select, .controls input[type=number]{
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      min-width:180px;
+      outline:none;
+      font-size:14px;
+      background: white;
+    }
+    .controls button{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .container{
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .table-wrap{
+      background:var(--card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      margin-bottom:18px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+    thead th{
+      background:linear-gradient(90deg, #2b6cb0, #2575fc);
+      color:white;
+      padding:12px 14px;
+      text-align:left;
+      font-weight:700;
+      position:sticky;
+      top:0;
+      z-index:2;
+    }
+    tbody tr{
+      border-bottom:1px solid #eef2f7;
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.6));
+    }
+    tbody tr:hover{ background:#f8fbff; }
+    td{
+      padding:14px;
+      vertical-align:middle;
+      color:#0f172a;
+    }
+    td a{ color:var(--accent); text-decoration:underline; }
+    .col-rank{ width:56px; font-weight:700; color:#334155; }
+    .col-name{ width:34%; }
+    .muted{ color:var(--muted); font-size:13px; }
+    .small{ font-size:12px; color:#475569; }
+
+    .chart-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      margin-bottom:28px;
+    }
+    .flex-row{ display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+    .right { margin-left:auto; }
+
+    .note{
+      font-size:13px;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    footer{
+      max-width:1200px;
+      margin:auto;
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      text-align:center;
+    }
+
+    /* responsive table scrolling on small screens */
+    @media (max-width:900px){
+      .table-wrap{ overflow:auto; }
+      thead th{ min-width:140px; }
+      td{ white-space:nowrap; }
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>📊 Giel's Trend Analytic Demo</h1>
-    <p>Produk, Chart & Video - Fashion Anak 2-8 Tahun</p>
+    <h1>Trend Analisis Fashion Anak — oleh Giel</h1>
+    <p>Top 50 produk TikTok Shop (fashion anak 2–8 tahun) — data sample / template</p>
   </header>
 
-  <nav>
-    <a href="#produk">Produk</a>
-    <a href="#chart">Chart</a>
-    <a href="#video">Video</a>
-  </nav>
-
-  <!-- Produk Section -->
-  <section id="produk">
-    <h2>🔥 50 Produk Populer</h2>
-    <div class="grid">
-      <!-- Contoh 3 produk nyata -->
-      <div class="card">
-        <img src="https://down-id.img.susercontent.com/file/id-11134207-7qul9-lf9p4yt4vn8za8" alt="Kids Denim Jacket">
-        <h3>Kids Denim Jacket</h3>
-        <p>Harga: Rp 150.000<br>Terjual: 1.200</p>
-        <a href="https://vt.tiktok.com/ZSjG12x9F/" target="_blank">Lihat Produk</a>
-      </div>
-
-      <div class="card">
-        <img src="https://down-id.img.susercontent.com/file/id-11134207-7qul9-lj8h2js0k1g0d8" alt="Baby Waffle Set">
-        <h3>Baby Waffle Set</h3>
-        <p>Harga: Rp 120.000<br>Terjual: 980</p>
-        <a href="https://vt.tiktok.com/ZSjG12uDb/" target="_blank">Lihat Produk</a>
-      </div>
-
-      <div class="card">
-        <img src="https://down-id.img.susercontent.com/file/id-11134207-7qul9-lgj2bsh6hv8b47" alt="Kids Graphic Tee">
-        <h3>Kids Graphic Tee</h3>
-        <p>Harga: Rp 95.000<br>Terjual: 2.100</p>
-        <a href="https://vt.tiktok.com/ZSjG12PHr/" target="_blank">Lihat Produk</a>
-      </div>
-      <!-- Nanti lanjutkan sampai 50 produk -->
+  <div class="container">
+    <div class="controls" role="region" aria-label="controls">
+      <input id="q" type="text" placeholder="Cari nama produk, platform, atau source..." />
+      <select id="platformFilter">
+        <option value="">Semua Platform</option>
+        <option value="TikTok Shop / FindNiche">TikTok Shop / FindNiche</option>
+        <option value="TikTok Shop / FastMoss">TikTok Shop / FastMoss</option>
+        <option value="Marketplace">Marketplace</option>
+      </select>
+      <input id="minViewers" type="number" placeholder="Min viewers (angka)" min="0" />
+      <button id="apply">Terapkan Filter</button>
+      <div style="margin-left:auto"></div>
+      <button id="chartBtn">Tampilkan Chart Top 10 (by Qty Sold)</button>
+      <a id="downloadCSV" href="sandbox:/mnt/data/tiktok_top50_template.csv" style="text-decoration:none">
+        <button title="Download CSV">Download CSV</button>
+      </a>
     </div>
-  </section>
 
-  <!-- Chart Section -->
-  <section id="chart">
-    <h2>📈 Tren Penjualan</h2>
-    <canvas id="salesChart" height="100"></canvas>
-  </section>
+    <div class="table-wrap" id="tableWrap">
+      <table id="productsTable" aria-describedby="note">
+        <thead>
+          <tr>
+            <th class="col-rank">Rank</th>
+            <th>Product</th>
+            <th>Platform</th>
+            <th>Video</th>
+            <th>Product Link</th>
+            <th>Harga</th>
+            <th>Qty Terjual (7d)</th>
+            <th>Viewers</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
 
-  <!-- Video Section -->
-  <section id="video">
-    <h2>🎥 Video Populer TikTok</h2>
-    <table>
-      <tr>
-        <th>Video</th>
-        <th>Model</th>
-        <th>Viewers</th>
-        <th>Harga</th>
-        <th>Qty Terjual</th>
-        <th>Produk</th>
-      </tr>
-      <tr>
-        <td><a href="https://vt.tiktok.com/ZSjG12x9F/" target="_blank">Video 1</a></td>
-        <td>Denim Jacket Anak</td>
-        <td>2.5M</td>
-        <td>Rp 150.000</td>
-        <td>1.200</td>
-        <td><a href="https://vt.tiktok.com/ZSjG12x9F/" target="_blank">Link Produk</a></td>
-      </tr>
-      <tr>
-        <td><a href="https://vt.tiktok.com/ZSjG12uDb/" target="_blank">Video 2</a></td>
-        <td>Dress Bunga Anak</td>
-        <td>1.8M</td>
-        <td>Rp 120.000</td>
-        <td>980</td>
-        <td><a href="https://vt.tiktok.com/ZSjG12uDb/" target="_blank">Link Produk</a></td>
-      </tr>
-    </table>
-  </section>
+    <div class="chart-card">
+      <div class="flex-row">
+        <h3 style="margin:0">Chart: Top N Produk (Qty Terjual)</h3>
+        <div class="right muted">Gunakan tombol "Tampilkan Chart Top 10" untuk memvisualisasi</div>
+      </div>
+      <canvas id="salesChart" style="margin-top:12px; max-height:360px"></canvas>
+      <p class="note" id="note">Catatan: data contoh berasal dari FindNiche / FastMoss dan template internal. Lengkapi Video URL & viewers untuk analisis lengkap.</p>
+    </div>
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <footer>
+    Data template & demo dibuat untuk Trend Analysis oleh <strong>Giel</strong>. Perbarui sumber/angka sebelum mengambil keputusan bisnis.
+  </footer>
+
   <script>
-    const ctx = document.getElementById('salesChart').getContext('2d');
-    const chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei'],
-        datasets: [{
-          label: 'Penjualan Produk',
-          data: [150, 200, 300, 400, 550],
-          borderColor: 'blue',
-          fill: true,
-          backgroundColor: 'rgba(0,132,255,0.2)'
-        }]
+    // --- Data: Top 50 template (embedded) ---
+    const data = [
+      {"Rank":1,"Product Name":"SWITCO | Kaos Jersey Anak Kemerdekaan (Dirgahayu Series)","Platform":"TikTok Shop / FindNiche","Video URL":"","Product URL":"https://findniche.com/tiktok/trending-kids-fashion-products-id","Price (Rp)":"72,999","Qty Sold (7d)":"16,880 (orders in 7 days per FindNiche)","Viewers":"","Notes":"Top ranked product on FindNiche trending list (Aug 2025).","Source":"FindNiche"},
+      {"Rank":2,"Product Name":"COD Korean Style Dress Pricess Anak Perempuan (Lace)","Platform":"TikTok Shop / FastMoss","Video URL":"","Product URL":"https://www.fastmoss.com/e-commerce/detail/1729635016955496899","Price (Rp)":"98,999 - 108,999","Qty Sold (7d)":"est: 20k-30k (FastMoss indicates strong 7-day sales)","Viewers":"","Notes":"High popularity score and viral index on FastMoss.","Source":"FastMoss"},
+      {"Rank":3,"Product Name":"RNZ Collection | Oneset Anak Perempuan (Crinkle Elora)","Platform":"TikTok Shop / FastMoss","Video URL":"","Product URL":"https://www.fastmoss.com/shop-marketing/detail/7494691469628049919","Price (Rp)":"47,500","Qty Sold (7d)":"","Viewers":"","Notes":"Listed in FastMoss shop history for kids' fashion.","Source":"FastMoss"},
+      {"Rank":4,"Product Name":"Libby Baby Indonesia - Baby clothing collection","Platform":"TikTok Shop / FastMoss","Video URL":"","Product URL":"https://m.fastmoss.com/detail?id=7493990978764833970&type=shop","Price (Rp)":"","Qty Sold (7d)":"","Viewers":"","Notes":"Shop historical sales available on FastMoss.","Source":"FastMoss"},
+      {"Rank":5,"Product Name":"SHUTO KIDS - Baju Kaos Distro Anak (Katun Premium)","Platform":"TikTok Shop / FastMoss","Video URL":"","Product URL":"https://www.fastmoss.com/e-commerce/detail/1729711583929206203","Price (Rp)":"44,900 - 90,000","Qty Sold (7d)":"","Viewers":"10k - 20k (FastMoss indicates viewers/engagement)","Notes":"Popular listing, commission ~7% per FastMoss.","Source":"FastMoss"},
+      {"Rank":6,"Product Name":"Junior Moorland Overall (example popular overall)","Platform":"TikTok Shop / Marketplace listing example","Video URL":"","Product URL":"https://babyhoki.store/products/363826-setelan-baju-dress-jaket-denim-lengan-panjang-fashion-anak-perempuan-motif-flower-denim","Price (Rp)":"359,000","Qty Sold (7d)":"","Viewers":"","Notes":"Example product on marketplace; useful as template.","Source":"Marketplace"},
+      {"Rank":7,"Product Name":"One-set OOTD Anak - Korean Style","Platform":"TikTok Shop / FastMoss","Video URL":"","Product URL":"https://www.findniche.com/tiktok/trending-kids-fashion-products-id","Price (Rp)":"34,998 - 120,400","Qty Sold (7d)":"","Viewers":"","Notes":"Range shows variety; use FindNiche to drill into specific listings.","Source":"FindNiche / FastMoss"},
+      {"Rank":8,"Product Name":"Setelan dress floral + jaket denim (marketplace example)","Platform":"Marketplace / TikTok Shop","Video URL":"","Product URL":"https://babyhoki.store/products/363826-setelan-baju-dress-jaket-denim-lengan-panjang-fashion-anak-perempuan-motif-flower-denim","Price (Rp)":"","Qty Sold (7d)":"","Viewers":"","Notes":"Use as sample product for template.","Source":"Marketplace"}
+      /* Rows 9..50 are empty template rows; you can extend by editing the data array or loading CSV */
+    ];
+
+    // Add empty rows up to 50 (if not filled)
+    (function ensure50(){
+      for(let i=data.length+1;i<=50;i++){
+        data.push({"Rank":i,"Product Name":"","Platform":"","Video URL":"","Product URL":"","Price (Rp)":"","Qty Sold (7d)":"","Viewers":"","Notes":"","Source":""});
       }
+    })();
+
+    // --- Utility: parse numbers from Qty Sold strings ---
+    function parseQty(q){
+      if(!q) return null;
+      // extract first number-like substring
+      const m = q.replace(/,/g,'').match(/(\d{1,3}(?:\.\d{3})*|\d+)(?=(\s|$|k|K|K?))/);
+      if(!m) return null;
+      let s = m[0].replace(/\./g,'').replace(/,/g,'');
+      // handle '20k' like forms
+      const kmatch = q.match(/(\d+(?:\.\d+)?)\s*[kK]/);
+      if(kmatch){
+        return Math.round(parseFloat(kmatch[1]) * 1000);
+      }
+      const num = parseInt(s,10);
+      return isNaN(num)?null:num;
+    }
+
+    // --- Render table rows ---
+    const tbody = document.getElementById('tbody');
+    function renderRows(rows){
+      tbody.innerHTML = '';
+      rows.forEach(r=>{
+        const tr = document.createElement('tr');
+        const vUrl = r["Video URL"] ? `<a href="${r["Video URL"]}" target="_blank">Video</a>` : '<span class="muted">-</span>';
+        const pUrl = r["Product URL"] ? `<a href="${r["Product URL"]}" target="_blank">Produk</a>` : '<span class="muted">-</span>';
+        const price = r["Price (Rp)"] || '-';
+        const qty = r["Qty Sold (7d)"] || '-';
+        const viewers = r["Viewers"] || '-';
+        tr.innerHTML = `
+          <td class="col-rank">${r.Rank}</td>
+          <td class="col-name"><strong>${r["Product Name"] || '-'}</strong><div class="small muted">${r.Notes || ''}</div></td>
+          <td>${r.Platform || '-'}</td>
+          <td>${vUrl}</td>
+          <td>${pUrl}</td>
+          <td>${price}</td>
+          <td>${qty}</td>
+          <td>${viewers}</td>
+          <td>${r.Source || '-'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // initial render
+    renderRows(data);
+
+    // --- Filters & search ---
+    document.getElementById('apply').addEventListener('click', ()=>{
+      const q = (document.getElementById('q').value || '').trim().toLowerCase();
+      const platform = document.getElementById('platformFilter').value;
+      const minV = parseInt(document.getElementById('minViewers').value || '0',10) || 0;
+
+      const filtered = data.filter(r=>{
+        if(platform && r.Platform!==platform) return false;
+        if(q){
+          const hay = (r["Product Name"]+' '+r.Platform+' '+r.Source).toLowerCase();
+          if(!hay.includes(q)) return false;
+        }
+        // viewers parse: try numeric extraction
+        let viewersNum = null;
+        if(r.Viewers){
+          const mv = r.Viewers.replace(/,/g,'').match(/(\d+(\.\d+)?)(\s*[kK])?/);
+          if(mv){
+            viewersNum = parseFloat(mv[1]);
+            if(mv[3] && /k/i.test(mv[3])) viewersNum *= 1000;
+          }
+        }
+        if(minV>0){
+          if(!viewersNum || viewersNum < minV) return false;
+        }
+        return true;
+      });
+      renderRows(filtered);
     });
+
+    // --- Chart: Top N by Qty Sold ---
+    let chart = null;
+    function showTopChart(N=10){
+      // create array of {name,qty} with parsed qty
+      const arr = data.map(r=>{
+        return {name: r["Product Name"] || ('#'+r.Rank), qty: parseQty(r["Qty Sold (7d)"]) || 0};
+      }).sort((a,b)=>b.qty - a.qty).slice(0,N);
+
+      const labels = arr.map(x=>x.name);
+      const values = arr.map(x=>x.qty);
+
+      const ctx = document.getElementById('salesChart').getContext('2d');
+      if(chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type:'bar',
+        data:{
+          labels:labels,
+          datasets:[{ label: 'Qty Terjual (est)', data: values, backgroundColor: '#2575fc' }]
+        },
+        options:{
+          responsive:true,
+          scales:{ y:{ beginAtZero:true } },
+          plugins:{ legend: { display:false } }
+        }
+      });
+    }
+
+    document.getElementById('chartBtn').addEventListener('click', ()=> showTopChart(10));
+
+    // Allow clicking headers to sort? (simple example: sort by Rank ascending)
+    // You can extend with more interactivity.
   </script>
 </body>
 </html>
